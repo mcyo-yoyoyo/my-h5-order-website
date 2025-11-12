@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>儿童每日点餐系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .role-selection {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .role-btn {
+            padding: 20px 25px;
+            border: none;
+            border-radius: 12px;
+            background: #4ecdc4;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 140px;
+            min-width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .role-btn:hover {
+            background: #45b7aa;
+            transform: translateY(-5px);
+        }
+
+        .role-btn.active {
+            background: #ff6b6b;
+        }
+
+        .role-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 25px;
+            background: #4ecdc4;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 90px;
+            min-width: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tab-button:hover {
+            background: #45b7aa;
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: #ff6b6b;
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .menu-item.selected {
+            border-color: #ff6b6b;
+            background: #fff5f5;
+        }
+
+        .menu-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .menu-name {
+            padding: 10px;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45b7aa;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+        }
+
+        .order-summary {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .order-summary h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .selected-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .selected-item {
+            background: #4ecdc4;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .delete-dish {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .star {
+            font-size: 28px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star.active, .star:hover {
+            color: #ffd700;
+        }
+
+        .history-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .history-date {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .history-dishes {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .history-dishes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .history-dish-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70px;
+            position: relative;
+        }
+
+        .history-dish-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .history-dish-name {
+            font-size: 12px;
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        .history-rating {
+            color: #ffd700;
+            font-size: 14px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #4CAF50;
+        }
+
+        .notification.error {
+            background: #f44336;
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #4ecdc4;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .upload-btn:hover {
+            background: #45b7aa;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .wishlist-item {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wishlist-text {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .wishlist-image {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-left: 15px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 15px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .role-btn {
+                padding: 15px 20px;
+                max-width: 100px;
+                min-width: 80px;
+            }
+            
+            .role-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 15px;
+            }
+            
+            .tab-button {
+                padding: 10px 12px;
+                font-size: 12px;
+                min-width: 60px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ 儿童每日点餐系统</h1>
+            <p>让小朋友自己选择，外婆做饭不再烦恼！</p>
+        </div>
+
+        <!-- 角色选择页面 -->
+        <div id="rolePage" class="page active">
+            <div class="role-selection">
+                <button class="role-btn" onclick="switchRole('child')">
+                    <div class="role-icon">👶</div>
+                    <span>孩子</span>
+                </button>
+                <button class="role-btn" onclick="switchRole('parent')">
+                    <div class="role-icon">👨‍💼</div>
+                    <span>父母</span>
+                </button>
+                <button class="role-btn" onclick="switchRole('grandma')">
+                    <div class="role-icon">👵</div>
+                    <span>外婆</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 内容页面 -->
+        <div id="contentPage" class="page">
+            <button class="back-btn" onclick="goToRolePage()">返回角色选择</button>
+            
+            <div class="tabs" id="tabsContainer">
+                <!-- 标签页将根据角色动态生成 -->
+            </div>
+
+            <!-- 点餐页面 -->
+            <div id="order" class="tab-content">
+                <h2>📋 今日点餐</h2>
+                <div style="margin-bottom: 15px;">
+                    <label>选择点餐类型：</label>
+                    <select id="orderType" onchange="filterDishes()">
+                        <option value="all">全部</option>
+                        <option value="finished">成品菜</option>
+                        <option value="ingredient">原材料</option>
+                    </select>
+                </div>
+                <div class="menu-grid" id="menuGrid">
+                    <!-- 菜品将通过JavaScript动态加载 -->
+                </div>
+                <div class="order-summary">
+                    <h3>🛒 已选择菜品</h3>
+                    <div class="selected-items" id="selectedItems">
+                        <!-- 选中的菜品将显示在这里 -->
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="submitOrder()">提交点餐</button>
+                    <button class="btn btn-danger" onclick="clearSelection()">清空选择</button>
+                </div>
+            </div>
+
+            <!-- 添加菜品页面 -->
+            <div id="add" class="tab-content">
+                <h2>➕ 添加新菜品</h2>
+                <div class="form-group">
+                    <label>菜品类型：</label>
+                    <select id="newDishType">
+                        <option value="finished">成品菜</option>
+                        <option value="ingredient">原材料</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newDishName">菜品名称</label>
+                    <input type="text" id="newDishName" required placeholder="请输入菜品名称">
+                </div>
+                <div class="upload-section">
+                    <p>上传菜品图片（拍照或选择）</p>
+                    <input type="file" id="imageUpload" accept="image/*" capture="environment" class="hidden">
+                    <div class="btn btn-primary upload-btn" onclick="document.getElementById('imageUpload').click()">选择图片</div>
+                    <div id="imagePreview" style="margin-top: 10px;"></div>
+                </div>
+                <div class="form-group">
+                    <label for="newDishDescription">菜品描述</label>
+                    <textarea id="newDishDescription" placeholder="请输入菜品描述（可选）"></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="addDish()">添加菜品</button>
+            </div>
+
+            <!-- 管理菜品页面 -->
+            <div id="manage" class="tab-content">
+                <h2>🔧 管理现有菜品</h2>
+                <div style="margin-bottom: 15px;">
+                    <label>筛选菜品类型：</label>
+                    <select id="manageType" onchange="filterManageDishes()">
+                        <option value="all">全部</option>
+                        <option value="finished">成品菜</option>
+                        <option value="ingredient">原材料</option>
+                    </select>
+                </div>
+                <div class="menu-grid" id="manageGrid">
+                    <!-- 菜品管理项将通过JavaScript动态加载 -->
+                </div>
+            </div>
+
+            <!-- 心愿单页面 -->
+            <div id="wishlist" class="tab-content">
+                <h2>💝 小朋友心愿单</h2>
+                <div class="form-group">
+                    <label for="wishlistText">输入想吃的菜（文字）</label>
+                    <input type="text" id="wishlistText" placeholder="例如：糖醋排骨、红烧肉">
+                </div>
+                <div class="upload-section">
+                    <p>或拍照上传想吃的菜</p>
+                    <input type="file" id="wishlistImageUpload" accept="image/*" capture="environment" class="hidden">
+                    <div class="btn btn-primary upload-btn" onclick="document.getElementById('wishlistImageUpload').click()">拍照/选择图片</div>
+                    <div id="wishlistImagePreview" style="margin-top: 10px;"></div>
+                </div>
+                <button class="btn btn-success" onclick="addToWishlist()">提交心愿</button>
+                
+                <h3 style="margin-top: 20px;">心愿单列表</h3>
+                <div id="wishlistList">
+                    <!-- 心愿单将通过JavaScript动态加载 -->
+                </div>
+            </div>
+
+            <!-- 点餐记录页面 -->
+            <div id="history" class="tab-content">
+                <h2>📅 点餐历史记录</h2>
+                <div id="historyList">
+                    <!-- 历史记录将通过JavaScript动态加载 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // 当前角色
+        let currentRole = null; // 默认为未选择角色
+
+        // 菜品数据存储
+        let dishes = JSON.parse(localStorage.getItem('childMenuDishes')) || [
+            {
+                id: 1,
+                name: '番茄炒蛋',
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjZCIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlRvbWF0byBFZ2c8L3RleHQ+PC9zdmc+',
+                description: '营养丰富的经典家常菜',
+                type: 'finished'
+            },
+            {
+                id: 2,
+                name: '红烧肉',
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNEVDREM0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlJvYXN0ZWQgUG9yazwvdGV4dD48L3N2Zz4=',
+                description: '香甜可口的红烧肉',
+                type: 'finished'
+            },
+            {
+                id: 3,
+                name: '鸡蛋',
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDVCN0QxIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkVnZzwvdGV4dD48L3N2Zz4=',
+                description: '富含蛋白质的原材料',
+                type: 'ingredient'
+            },
+            {
+                id: 4,
+                name: '青菜',
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOTZDRUI0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkdyZWVuIFZlZ2V0YWJsZTwvdGV4dD48L3N2Zz4=',
+                description: '新鲜的绿叶蔬菜',
+                type: 'ingredient'
+            }
+        ];
+
+        // 点餐记录存储
+        let orderHistory = JSON.parse(localStorage.getItem('childMenuOrderHistory')) || [];
+
+        // 心愿单存储
+        let wishlist = JSON.parse(localStorage.getItem('childMenuWishlist')) || [];
+
+        // 选中的菜品
+        let selectedDishes = [];
+        let currentImage = null;
+        let currentWishlistImage = null;
+
+        // 保存菜品到本地存储
+        function saveDishes() {
+            localStorage.setItem('childMenuDishes', JSON.stringify(dishes));
+        }
+
+        // 保存点餐记录到本地存储
+        function saveOrderHistory() {
+            localStorage.setItem('childMenuOrderHistory', JSON.stringify(orderHistory));
+        }
+
+        // 保存心愿单到本地存储
+        function saveWishlist() {
+            localStorage.setItem('childMenuWishlist', JSON.stringify(wishlist));
+        }
+
+        // 切换角色
+        function switchRole(role) {
+            currentRole = role;
+            
+            // 隐藏角色选择页面，显示内容页面
+            document.getElementById('rolePage').classList.remove('active');
+            document.getElementById('contentPage').classList.add('active');
+            
+            // 根据角色生成标签页
+            generateTabs();
+        }
+
+        // 返回角色选择页面
+        function goToRolePage() {
+            document.getElementById('contentPage').classList.remove('active');
+            document.getElementById('rolePage').classList.add('active');
+            currentRole = null;
+        }
+
+        // 根据角色生成标签页
+        function generateTabs() {
+            const tabsContainer = document.getElementById('tabsContainer');
+            tabsContainer.innerHTML = '';
+            
+            // 隐藏所有内容区域
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            let tabs = [];
+            
+            if (currentRole === 'child') {
+                // 孩子角色：心愿单、我要点餐、点餐记录
+                tabs = [
+                    { id: 'wishlist', name: '心愿单', icon: '💝' },
+                    { id: 'order', name: '我要点餐', icon: '📋' },
+                    { id: 'history', name: '点餐记录', icon: '📅' }
+                ];
+            } else if (currentRole === 'grandma') {
+                // 外婆角色：点餐记录、心愿单
+                tabs = [
+                    { id: 'history', name: '点餐记录', icon: '📅' },
+                    { id: 'wishlist', name: '心愿单', icon: '💝' }
+                ];
+            } else if (currentRole === 'parent') {
+                // 父母角色：心愿单、我要点餐、点餐记录、管理菜品、添加菜品
+                tabs = [
+                    { id: 'wishlist', name: '心愿单', icon: '💝' },
+                    { id: 'order', name: '我要点餐', icon: '📋' },
+                    { id: 'history', name: '点餐记录', icon: '📅' },
+                    { id: 'manage', name: '管理菜品', icon: '🔧' },
+                    { id: 'add', name: '添加菜品', icon: '➕' }
+                ];
+            }
+            
+            // 创建标签按钮
+            tabs.forEach(tab => {
+                const button = document.createElement('button');
+                button.className = 'tab-button';
+                button.onclick = () => switchTab(tab.id);
+                button.innerHTML = `<div class="tab-icon">${tab.icon}</div><div>${tab.name}</div>`;
+                tabsContainer.appendChild(button);
+            });
+            
+            // 激活第一个标签
+            if (tabs.length > 0) {
+                document.querySelector('.tab-button').classList.add('active');
+                document.getElementById(tabs[0].id).classList.add('active');
+                
+                // 根据当前角色和标签重新渲染内容
+                if (tabs[0].id === 'order') {
+                    filterDishes();
+                } else if (tabs[0].id === 'manage') {
+                    filterManageDishes();
+                } else if (tabs[0].id === 'history') {
+                    renderHistory();
+                } else if (tabs[0].id === 'wishlist') {
+                    renderWishlist();
+                }
+            }
+        }
+
+        // 切换标签页
+        function switchTab(tabName) {
+            // 隐藏所有标签内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // 移除所有按钮的激活状态
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 激活选中的标签
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            // 根据标签重新加载内容
+            if(tabName === 'order') {
+                filterDishes();
+            } else if(tabName === 'manage') {
+                filterManageDishes();
+            } else if(tabName === 'history') {
+                renderHistory();
+            } else if(tabName === 'wishlist') {
+                renderWishlist();
+            }
+        }
+
+        // 渲染菜单（根据类型过滤）
+        function renderMenu(dishType = 'all') {
+            const menuGrid = document.getElementById('menuGrid');
+            menuGrid.innerHTML = '';
+            
+            const filteredDishes = dishType === 'all' ? dishes : dishes.filter(d => d.type === dishType);
+            
+            filteredDishes.forEach(dish => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                
+                // 只有孩子角色可以点击选择
+                if (currentRole === 'child') {
+                    menuItem.onclick = () => toggleDishSelection(dish.id);
+                    if(selectedDishes.includes(dish.id)) {
+                        menuItem.classList.add('selected');
+                    }
+                }
+                
+                menuItem.innerHTML = `
+                    <img src="${dish.image}" alt="${dish.name}" class="menu-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjREREIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+JiM4MjIwO1Vua25vd24gSW1hZ2UmIzgyMjE7PC90ZXh0Pjwvc3ZnPg=='">
+                    <div class="menu-name">${dish.name}</div>
+                `;
+                
+                menuGrid.appendChild(menuItem);
+            });
+            
+            updateSelectedItems();
+        }
+
+        // 切换菜品选择状态（仅孩子角色）
+        function toggleDishSelection(dishId) {
+            if (currentRole !== 'child') return;
+            
+            const index = selectedDishes.indexOf(dishId);
+            if(index > -1) {
+                selectedDishes.splice(index, 1);
+            } else {
+                selectedDishes.push(dishId);
+            }
+            // 重新渲染当前筛选的菜单
+            const currentType = document.getElementById('orderType').value;
+            renderMenu(currentType);
+        }
+
+        // 更新已选择的菜品显示
+        function updateSelectedItems() {
+            const selectedItemsDiv = document.getElementById('selectedItems');
+            selectedItemsDiv.innerHTML = '';
+            
+            if (currentRole !== 'child') return;
+            
+            selectedDishes.forEach(id => {
+                const dish = dishes.find(d => d.id === id);
+                if(dish) {
+                    const itemSpan = document.createElement('span');
+                    itemSpan.className = 'selected-item';
+                    itemSpan.innerHTML = `${dish.name} <span class="delete-dish" onclick="removeDishFromSelection(${id})">×</span>`;
+                    selectedItemsDiv.appendChild(itemSpan);
+                }
+            });
+        }
+
+        // 从选择中移除菜品（仅孩子角色）
+        function removeDishFromSelection(dishId) {
+            if (currentRole !== 'child') return;
+            
+            const index = selectedDishes.indexOf(dishId);
+            if(index > -1) {
+                selectedDishes.splice(index, 1);
+                // 重新渲染当前筛选的菜单
+                const currentType = document.getElementById('orderType').value;
+                renderMenu(currentType);
+            }
+        }
+
+        // 提交点餐（仅孩子角色）
+        function submitOrder() {
+            if (currentRole !== 'child') return;
+            
+            if(selectedDishes.length === 0) {
+                showNotification('请至少选择一道菜！', 'error');
+                return;
+            }
+            
+            const selectedNames = selectedDishes.map(id => {
+                const dish = dishes.find(d => d.id === id);
+                return dish ? dish.name : '';
+            }).filter(name => name !== '');
+            
+            const orderRecord = {
+                id: Date.now(), // 为每条记录添加唯一ID，便于后续修改
+                date: new Date().toLocaleDateString('zh-CN'),
+                dishes: selectedDishes.map(id => {
+                    const dish = dishes.find(d => d.id === id);
+                    return { id: dish.id, name: dish.name, type: dish.type, image: dish.image };
+                }),
+                rating: 0 // 初始评分为0，等待用户评价
+            };
+            
+            orderHistory.push(orderRecord);
+            saveOrderHistory();
+            
+            showNotification(`点餐成功！今日菜品：${selectedNames.join('、')}`, 'success');
+            
+            // 清空选择
+            selectedDishes = [];
+            renderMenu(); // 重新渲染点餐页面
+        }
+
+        // 清空选择（仅孩子角色）
+        function clearSelection() {
+            if (currentRole !== 'child') return;
+            
+            selectedDishes = [];
+            renderMenu();
+            showNotification('已清空选择', 'success');
+        }
+
+        // 添加菜品（仅父母角色）
+        function addDish() {
+            if (currentRole !== 'parent') return;
+            
+            const name = document.getElementById('newDishName').value;
+            const type = document.getElementById('newDishType').value;
+            const description = document.getElementById('newDishDescription').value;
+            
+            if (!currentImage) {
+                showNotification('请上传菜品图片！', 'error');
+                return;
+            }
+            
+            const newDish = {
+                id: Date.now(), // 使用时间戳作为唯一ID
+                name: name,
+                image: currentImage,
+                description: description,
+                type: type
+            };
+            
+            dishes.push(newDish);
+            saveDishes();
+            
+            // 清空表单
+            document.getElementById('newDishName').value = '';
+            document.getElementById('newDishDescription').value = '';
+            document.getElementById('imagePreview').innerHTML = '';
+            currentImage = null;
+            
+            showNotification('菜品添加成功！', 'success');
+            
+            // 切换回点餐页面
+            switchTab('order');
+        }
+
+        // 渲染管理菜单（根据类型过滤，仅父母角色）
+        function renderManageMenu(dishType = 'all') {
+            if (currentRole !== 'parent') return;
+            
+            const manageGrid = document.getElementById('manageGrid');
+            manageGrid.innerHTML = '';
+            
+            const filteredDishes = dishType === 'all' ? dishes : dishes.filter(d => d.type === dishType);
+            
+            filteredDishes.forEach(dish => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                
+                menuItem.innerHTML = `
+                    <img src="${dish.image}" alt="${dish.name}" class="menu-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjREREIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+JiM4MjIwO1Vua25vd24gSW1hZ2UmIzgyMjE7PC90ZXh0Pjwvc3ZnPg=='">
+                    <div class="menu-name">${dish.name} (${dish.type === 'finished' ? '成品' : '原料'})</div>
+                    <div style="padding: 8px; text-align: center;">
+                        <button class="btn btn-danger" onclick="deleteDish(${dish.id})" style="margin-right: 5px;">删除</button>
+                    </div>
+                `;
+                
+                manageGrid.appendChild(menuItem);
+            });
+        }
+
+        // 删除菜品（仅父母角色）
+        function deleteDish(dishId) {
+            if (currentRole !== 'parent') return;
+            
+            if(confirm('确定要删除这道菜吗？')) {
+                dishes = dishes.filter(dish => dish.id !== dishId);
+                saveDishes();
+                // 重新渲染管理页面
+                const currentType = document.getElementById('manageType').value;
+                renderManageMenu(currentType);
+                // 重新渲染点餐页面
+                const orderType = document.getElementById('orderType').value;
+                renderMenu(orderType);
+                showNotification('菜品删除成功！', 'success');
+            }
+        }
+
+        // 显示通知
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // 渲染历史记录
+        function renderHistory() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+            
+            if (orderHistory.length === 0) {
+                historyList.innerHTML = '<p style="text-align: center; color: #999;">暂无点餐记录</p>';
+                return;
+            }
+            
+            // 按日期倒序排列
+            const sortedHistory = [...orderHistory].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedHistory.forEach((record, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                const dishNames = record.dishes.map(d => d.name).join('、');
+                
+                // 创建菜品图片列表
+                let dishImages = '<div class="history-dishes-list">';
+                record.dishes.forEach(dish => {
+                    dishImages += `
+                        <div class="history-dish-item">
+                            <img src="${dish.image}" alt="${dish.name}" class="history-dish-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0RERC8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmaWxsPSIjMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGRsZSI+JiM4MjIwO1Vua25vd24mIzgyMjE7PC90ZXh0Pjwvc3ZnPg=='">
+                            <div class="history-dish-name">${dish.name}</div>
+                        </div>
+                    `;
+                });
+                dishImages += '</div>';
+                
+                let ratingDisplay = '';
+                if (record.rating > 0) {
+                    ratingDisplay = `<div class="history-rating">评价：${'★'.repeat(record.rating)}${'☆'.repeat(5 - record.rating)}</div>`;
+                } else {
+                    // 只有孩子角色可以评价
+                    if (currentRole === 'child') {
+                        ratingDisplay = `
+                            <div class="rating" id="rating-${index}">
+                                <span class="star" onclick="rateOrder(${index}, 1)">★</span>
+                                <span class="star" onclick="rateOrder(${index}, 2)">★</span>
+                                <span class="star" onclick="rateOrder(${index}, 3)">★</span>
+                                <span class="star" onclick="rateOrder(${index}, 4)">★</span>
+                                <span class="star" onclick="rateOrder(${index}, 5)">★</span>
+                            </div>
+                        `;
+                    } else {
+                        ratingDisplay = '<div class="history-rating">未评价</div>';
+                    }
+                }
+                
+                // 添加修改和删除按钮（仅孩子角色）
+                let actionButtons = '';
+                if (currentRole === 'child') {
+                    actionButtons = `
+                        <div style="margin-top: 10px; display: flex; gap: 8px;">
+                            <button class="btn btn-primary" onclick="modifyOrder(${index})" style="flex: 1; padding: 8px;">修改</button>
+                            <button class="btn btn-danger" onclick="deleteOrder(${index})" style="flex: 1; padding: 8px;">删除</button>
+                        </div>
+                    `;
+                }
+                
+                historyItem.innerHTML = `
+                    <div class="history-date">${record.date}</div>
+                    <div class="history-dishes">点餐：${dishNames}</div>
+                    ${dishImages}
+                    ${ratingDisplay}
+                    ${actionButtons}
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // 评价点餐（仅孩子角色）
+        function rateOrder(recordIndex, rating) {
+            if (currentRole !== 'child') return;
+            
+            orderHistory[recordIndex].rating = rating;
+            saveOrderHistory();
+            showNotification('评价成功！', 'success');
+            // 重新渲染历史记录以更新评价显示
+            renderHistory();
+        }
+
+        // 修改点餐（仅孩子角色）
+        function modifyOrder(recordIndex) {
+            if (currentRole !== 'child') return;
+            
+            const record = orderHistory[recordIndex];
+            // 将选中的菜品设置为当前选中的菜品
+            selectedDishes = record.dishes.map(d => d.id);
+            // 切换到点餐页面
+            switchTab('order');
+            // 显示通知
+            showNotification('已加载点餐记录，可以修改后重新提交', 'success');
+        }
+
+        // 删除点餐记录（仅孩子角色）
+        function deleteOrder(recordIndex) {
+            if (currentRole !== 'child') return;
+            
+            if(confirm('确定要删除这条点餐记录吗？')) {
+                orderHistory.splice(recordIndex, 1);
+                saveOrderHistory();
+                showNotification('点餐记录删除成功！', 'success');
+                // 重新渲染历史记录
+                renderHistory();
+            }
+        }
+
+        // 过滤点餐页面的菜品
+        function filterDishes() {
+            const type = document.getElementById('orderType').value;
+            renderMenu(type);
+        }
+
+        // 过滤管理页面的菜品
+        function filterManageDishes() {
+            const type = document.getElementById('manageType').value;
+            renderManageMenu(type);
+        }
+
+        // 图片上传预览
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            if (currentRole !== 'parent') return;
+            
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentImage = e.target.result;
+                    document.getElementById('imagePreview').innerHTML = `
+                        <img src="${currentImage}" alt="预览图片" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;">
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 心愿单图片上传预览
+        document.getElementById('wishlistImageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentWishlistImage = e.target.result;
+                    document.getElementById('wishlistImagePreview').innerHTML = `
+                        <img src="${currentWishlistImage}" alt="心愿图片" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;">
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 添加到心愿单
+        function addToWishlist() {
+            const text = document.getElementById('wishlistText').value.trim();
+            const image = currentWishlistImage;
+            
+            if (!text && !image) {
+                showNotification('请输入心愿或上传图片！', 'error');
+                return;
+            }
+            
+            const wishlistItem = {
+                id: Date.now(),
+                text: text,
+                image: image,
+                date: new Date().toLocaleDateString('zh-CN')
+            };
+            
+            wishlist.push(wishlistItem);
+            saveWishlist();
+            
+            // 清空表单
+            document.getElementById('wishlistText').value = '';
+            document.getElementById('wishlistImagePreview').innerHTML = '';
+            currentWishlistImage = null;
+            
+            showNotification('心愿提交成功！', 'success');
+            
+            // 重新渲染心愿单页面
+            renderWishlist();
+        }
+
+        // 渲染心愿单
+        function renderWishlist() {
+            const wishlistList = document.getElementById('wishlistList');
+            wishlistList.innerHTML = '';
+            
+            if (wishlist.length === 0) {
+                wishlistList.innerHTML = '<p style="text-align: center; color: #999;">暂无心愿单</p>';
+                return;
+            }
+            
+            // 按日期倒序排列
+            const sortedWishlist = [...wishlist].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedWishlist.forEach(item => {
+                const wishlistItem = document.createElement('div');
+                wishlistItem.className = 'wishlist-item';
+                
+                let content = `<div class="wishlist-text">${item.text || '（无文字描述）'}</div>`;
+                if (item.image) {
+                    content += `<img src="${item.image}" alt="心愿图片" class="wishlist-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0RERC8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmaWxsPSIjMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGRsZSI+JiM4MjIwO1Vua25vd24mIzgyMjE7PC90ZXh0Pjwvc3ZnPg=='">`;
+                }
+                
+                wishlistItem.innerHTML = content;
+                
+                wishlistList.appendChild(wishlistItem);
+            });
+        }
+
+        // 页面加载时初始化
+        window.onload = function() {
+            // 默认显示角色选择页面
+            document.getElementById('rolePage').classList.add('active');
+            document.getElementById('contentPage').classList.remove('active');
+        };
+    </script>
+</body>
+</html>

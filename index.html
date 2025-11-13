@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>百合每日点餐系统</title>
+    <title>Zianna点餐助手 </title>
     <style>
         * {
             margin: 0;
@@ -459,6 +459,47 @@
             font-size: 14px;
         }
 
+        .meal-type-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meal-type-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #4ecdc4;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+
+        .meal-type-btn:hover {
+            background: #45b7aa;
+        }
+
+        .meal-type-btn.active {
+            background: #ff6b6b;
+        }
+
+        .rating-comment {
+            margin-top: 10px;
+        }
+
+        .rating-comment textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 60px;
+        }
+
         @media (max-width: 480px) {
             .role-btn {
                 padding: 15px 20px;
@@ -500,11 +541,11 @@
         <div id="rolePage" class="page active">
             <div class="role-selection">
                 <button class="role-btn" onclick="switchRole('child')">
-                    <div class="role-icon">👶</div>
+                    <div class="role-icon">👧</div>
                     <span>孩子</span>
                 </button>
                 <button class="role-btn" onclick="switchRole('parent')">
-                    <div class="role-icon">👨‍💼</div>
+                    <div class="role-icon">👨👩</div>
                     <span>父母</span>
                 </button>
                 <button class="role-btn" onclick="switchRole('grandma')">
@@ -516,7 +557,7 @@
 
         <!-- 内容页面 -->
         <div id="contentPage" class="page">
-            <button class="back-btn" onclick="goToRolePage()">返回</button>
+            <button class="back-btn" onclick="goToRolePage()">返回角色选择</button>
             
             <div class="tabs" id="tabsContainer">
                 <!-- 标签页将根据角色动态生成 -->
@@ -524,14 +565,11 @@
 
             <!-- 点餐页面 -->
             <div id="order" class="tab-content">
-                <h2>📋 想吃啥就点啥</h2>
-                <div style="margin-bottom: 15px;">
-                    <label>选择点餐类型：</label>
-                    <select id="orderType" onchange="filterDishes()">
-                        <option value="all">全部</option>
-                        <option value="finished">成品菜</option>
-                        <option value="ingredient">原材料</option>
-                    </select>
+                <h2>📋 今日点餐</h2>
+                <div class="meal-type-buttons">
+                    <button class="meal-type-btn active" onclick="switchMealType('breakfast')">🍳 早餐</button>
+                    <button class="meal-type-btn" onclick="switchMealType('lunch')">🍱 中餐</button>
+                    <button class="meal-type-btn" onclick="switchMealType('dinner')">🍲 晚餐</button>
                 </div>
                 <div class="menu-grid" id="menuGrid">
                     <!-- 菜品将通过JavaScript动态加载 -->
@@ -554,8 +592,9 @@
                 <div class="form-group">
                     <label>菜品类型：</label>
                     <select id="newDishType">
-                        <option value="finished">成品菜</option>
-                        <option value="ingredient">原材料</option>
+                        <option value="breakfast">早餐</option>
+                        <option value="lunch">中餐</option>
+                        <option value="dinner">晚餐</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -582,8 +621,9 @@
                     <label>筛选菜品类型：</label>
                     <select id="manageType" onchange="filterManageDishes()">
                         <option value="all">全部</option>
-                        <option value="finished">成品菜</option>
-                        <option value="ingredient">原材料</option>
+                        <option value="breakfast">早餐</option>
+                        <option value="lunch">中餐</option>
+                        <option value="dinner">晚餐</option>
                     </select>
                 </div>
                 <div class="menu-grid" id="manageGrid">
@@ -593,9 +633,9 @@
 
             <!-- 心愿单页面 -->
             <div id="wishlist" class="tab-content">
-                <h2>💝 我想吃</h2>
+                <h2>💝 小朋友心愿单</h2>
                 <div class="form-group">
-                    <label for="wishlistText">输入你想吃的</label>
+                    <label for="wishlistText">输入想吃的菜（文字）</label>
                     <input type="text" id="wishlistText" placeholder="例如：糖醋排骨、红烧肉">
                 </div>
                 <div class="upload-section">
@@ -604,7 +644,7 @@
                     <div class="btn btn-primary upload-btn" onclick="document.getElementById('wishlistImageUpload').click()">拍照/选择图片</div>
                     <div id="wishlistImagePreview" style="margin-top: 10px;"></div>
                 </div>
-                <button class="btn btn-success" onclick="addToWishlist()">发给爸爸妈妈</button>
+                <button class="btn btn-success" onclick="addToWishlist()">提交心愿</button>
                 
                 <h3 style="margin-top: 20px;">心愿单列表</h3>
                 <div id="wishlistList">
@@ -614,7 +654,7 @@
 
             <!-- 点餐记录页面 -->
             <div id="history" class="tab-content">
-                <h2>📅 点餐记录</h2>
+                <h2>📅 点餐历史记录</h2>
                 <div id="historyList">
                     <!-- 历史记录将通过JavaScript动态加载 -->
                 </div>
@@ -627,36 +667,37 @@
     <script>
         // 当前角色
         let currentRole = null; // 默认为未选择角色
+        let currentMealType = 'breakfast'; // 默认为早餐
 
         // 菜品数据存储
         let dishes = JSON.parse(localStorage.getItem('childMenuDishes')) || [
             {
                 id: 1,
-                name: '番茄炒蛋',
-                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjZCIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlRvbWF0byBFZ2c8L3RleHQ+PC9zdmc+',
-                description: '营养丰富的经典家常菜',
-                type: 'finished'
+                name: '牛奶',
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjZCIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk1pbGw8L3RleHQ+PC9zdmc+',
+                description: '营养丰富的早餐',
+                type: 'breakfast'
             },
             {
                 id: 2,
-                name: '红烧肉',
-                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNEVDREM0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlJvYXN0ZWQgUG9yazwvdGV4dD48L3N2Zz4=',
-                description: '香甜可口的红烧肉',
-                type: 'finished'
+                name: '鸡蛋',
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNEVDREM0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkVnZzwvdGV4dD48L3N2Zz4=',
+                description: '富含蛋白质',
+                type: 'breakfast'
             },
             {
                 id: 3,
-                name: '鸡蛋',
-                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDVCN0QxIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkVnZzwvdGV4dD48L3N2Zz4=',
-                description: '富含蛋白质的原材料',
-                type: 'ingredient'
+                name: '红烧肉',
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDVCN0QxIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlJvYXN0ZWQgUG9yazwvdGV4dD48L3N2Zz4=',
+                description: '香甜可口的中餐',
+                type: 'lunch'
             },
             {
                 id: 4,
                 name: '青菜',
                 image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOTZDRUI0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkdyZWVuIFZlZ2V0YWJsZTwvdGV4dD48L3N2Zz4=',
                 description: '新鲜的绿叶蔬菜',
-                type: 'ingredient'
+                type: 'dinner'
             }
         ];
 
@@ -698,7 +739,7 @@
             generateTabs();
         }
 
-        // 返回页面
+        // 返回角色选择页面
         function goToRolePage() {
             document.getElementById('contentPage').classList.remove('active');
             document.getElementById('rolePage').classList.add('active');
@@ -718,11 +759,11 @@
             let tabs = [];
             
             if (currentRole === 'child') {
-                // 孩子角色：心愿单、我要点餐、点餐记录
+                // 孩子角色：我要点餐、点餐记录、心愿单
                 tabs = [
-                    { id: 'wishlist', name: '心愿单', icon: '💝' },
                     { id: 'order', name: '我要点餐', icon: '📋' },
-                    { id: 'history', name: '点餐记录', icon: '📅' }
+                    { id: 'history', name: '点餐记录', icon: '📅' },
+                    { id: 'wishlist', name: '心愿单', icon: '💝' }
                 ];
             } else if (currentRole === 'grandma') {
                 // 外婆角色：点餐记录、心愿单
@@ -731,10 +772,9 @@
                     { id: 'wishlist', name: '心愿单', icon: '💝' }
                 ];
             } else if (currentRole === 'parent') {
-                // 父母角色：心愿单、我要点餐、点餐记录、管理菜品、添加菜品
+                // 父母角色：心愿单、点餐记录、管理菜品、添加菜品
                 tabs = [
                     { id: 'wishlist', name: '心愿单', icon: '💝' },
-                    { id: 'order', name: '我要点餐', icon: '📋' },
                     { id: 'history', name: '点餐记录', icon: '📅' },
                     { id: 'manage', name: '管理菜品', icon: '🔧' },
                     { id: 'add', name: '添加菜品', icon: '➕' }
@@ -757,7 +797,7 @@
                 
                 // 根据当前角色和标签重新渲染内容
                 if (tabs[0].id === 'order') {
-                    filterDishes();
+                    renderMenu(currentMealType);
                 } else if (tabs[0].id === 'manage') {
                     filterManageDishes();
                 } else if (tabs[0].id === 'history') {
@@ -785,7 +825,7 @@
             
             // 根据标签重新加载内容
             if(tabName === 'order') {
-                filterDishes();
+                renderMenu(currentMealType);
             } else if(tabName === 'manage') {
                 filterManageDishes();
             } else if(tabName === 'history') {
@@ -795,12 +835,26 @@
             }
         }
 
+        // 切换餐次类型
+        function switchMealType(mealType) {
+            currentMealType = mealType;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.meal-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 重新渲染菜单
+            renderMenu(mealType);
+        }
+
         // 渲染菜单（根据类型过滤）
-        function renderMenu(dishType = 'all') {
+        function renderMenu(dishType = 'breakfast') {
             const menuGrid = document.getElementById('menuGrid');
             menuGrid.innerHTML = '';
             
-            const filteredDishes = dishType === 'all' ? dishes : dishes.filter(d => d.type === dishType);
+            const filteredDishes = dishes.filter(d => d.type === dishType);
             
             filteredDishes.forEach(dish => {
                 const menuItem = document.createElement('div');
@@ -836,8 +890,7 @@
                 selectedDishes.push(dishId);
             }
             // 重新渲染当前筛选的菜单
-            const currentType = document.getElementById('orderType').value;
-            renderMenu(currentType);
+            renderMenu(currentMealType);
         }
 
         // 更新已选择的菜品显示
@@ -866,8 +919,7 @@
             if(index > -1) {
                 selectedDishes.splice(index, 1);
                 // 重新渲染当前筛选的菜单
-                const currentType = document.getElementById('orderType').value;
-                renderMenu(currentType);
+                renderMenu(currentMealType);
             }
         }
 
@@ -888,21 +940,33 @@
             const orderRecord = {
                 id: Date.now(), // 为每条记录添加唯一ID，便于后续修改
                 date: new Date().toLocaleDateString('zh-CN'),
+                mealType: currentMealType,
                 dishes: selectedDishes.map(id => {
                     const dish = dishes.find(d => d.id === id);
                     return { id: dish.id, name: dish.name, type: dish.type, image: dish.image };
                 }),
-                rating: 0 // 初始评分为0，等待用户评价
+                rating: 0, // 初始评分为0，等待用户评价
+                comment: '' // 初始评价留言为空
             };
             
             orderHistory.push(orderRecord);
             saveOrderHistory();
             
-            showNotification(`点餐成功！今日菜品：${selectedNames.join('、')}`, 'success');
+            showNotification(`点餐成功！${getMealTypeName(currentMealType)}菜品：${selectedNames.join('、')}`, 'success');
             
             // 清空选择
             selectedDishes = [];
-            renderMenu(); // 重新渲染点餐页面
+            renderMenu(currentMealType); // 重新渲染点餐页面
+        }
+
+        // 获取餐次类型名称
+        function getMealTypeName(type) {
+            switch(type) {
+                case 'breakfast': return '早餐';
+                case 'lunch': return '中餐';
+                case 'dinner': return '晚餐';
+                default: return '餐';
+            }
         }
 
         // 清空选择（仅孩子角色）
@@ -910,7 +974,7 @@
             if (currentRole !== 'child') return;
             
             selectedDishes = [];
-            renderMenu();
+            renderMenu(currentMealType);
             showNotification('已清空选择', 'success');
         }
 
@@ -965,7 +1029,7 @@
                 
                 menuItem.innerHTML = `
                     <img src="${dish.image}" alt="${dish.name}" class="menu-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjREREIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+JiM4MjIwO1Vua25vd24gSW1hZ2UmIzgyMjE7PC90ZXh0Pjwvc3ZnPg=='">
-                    <div class="menu-name">${dish.name} (${dish.type === 'finished' ? '成品' : '原料'})</div>
+                    <div class="menu-name">${dish.name} (${getMealTypeName(dish.type)})</div>
                     <div style="padding: 8px; text-align: center;">
                         <button class="btn btn-danger" onclick="deleteDish(${dish.id})" style="margin-right: 5px;">删除</button>
                     </div>
@@ -986,8 +1050,7 @@
                 const currentType = document.getElementById('manageType').value;
                 renderManageMenu(currentType);
                 // 重新渲染点餐页面
-                const orderType = document.getElementById('orderType').value;
-                renderMenu(orderType);
+                renderMenu(currentMealType);
                 showNotification('菜品删除成功！', 'success');
             }
         }
@@ -1037,6 +1100,9 @@
                 let ratingDisplay = '';
                 if (record.rating > 0) {
                     ratingDisplay = `<div class="history-rating">评价：${'★'.repeat(record.rating)}${'☆'.repeat(5 - record.rating)}</div>`;
+                    if (record.comment) {
+                        ratingDisplay += `<div style="margin-top: 5px; font-size: 12px; color: #666;">评价留言：${record.comment}</div>`;
+                    }
                 } else {
                     // 只有孩子角色可以评价
                     if (currentRole === 'child') {
@@ -1047,6 +1113,9 @@
                                 <span class="star" onclick="rateOrder(${index}, 3)">★</span>
                                 <span class="star" onclick="rateOrder(${index}, 4)">★</span>
                                 <span class="star" onclick="rateOrder(${index}, 5)">★</span>
+                            </div>
+                            <div class="rating-comment">
+                                <textarea id="comment-${index}" placeholder="请输入评价留言（可选）"></textarea>
                             </div>
                         `;
                     } else {
@@ -1066,7 +1135,7 @@
                 }
                 
                 historyItem.innerHTML = `
-                    <div class="history-date">${record.date}</div>
+                    <div class="history-date">${record.date} ${getMealTypeName(record.mealType)}</div>
                     <div class="history-dishes">点餐：${dishNames}</div>
                     ${dishImages}
                     ${ratingDisplay}
@@ -1081,7 +1150,10 @@
         function rateOrder(recordIndex, rating) {
             if (currentRole !== 'child') return;
             
+            const comment = document.getElementById(`comment-${recordIndex}`)?.value || '';
+            
             orderHistory[recordIndex].rating = rating;
+            orderHistory[recordIndex].comment = comment;
             saveOrderHistory();
             showNotification('评价成功！', 'success');
             // 重新渲染历史记录以更新评价显示
@@ -1095,6 +1167,13 @@
             const record = orderHistory[recordIndex];
             // 将选中的菜品设置为当前选中的菜品
             selectedDishes = record.dishes.map(d => d.id);
+            // 设置当前餐次类型
+            currentMealType = record.mealType;
+            // 更新餐次按钮状态
+            document.querySelectorAll('.meal-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[onclick="switchMealType('${record.mealType}')"]`).classList.add('active');
             // 切换到点餐页面
             switchTab('order');
             // 显示通知
@@ -1112,12 +1191,6 @@
                 // 重新渲染历史记录
                 renderHistory();
             }
-        }
-
-        // 过滤点餐页面的菜品
-        function filterDishes() {
-            const type = document.getElementById('orderType').value;
-            renderMenu(type);
         }
 
         // 过滤管理页面的菜品
@@ -1225,9 +1298,4 @@
         };
     </script>
 </body>
-
 </html>
-
-
-
-

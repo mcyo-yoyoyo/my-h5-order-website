@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zianna点餐助手 </title>
+    <title>Zianna点餐助手</title>
     <style>
+        /* 保持原有的 CSS 样式，无需修改 */
         * {
             margin: 0;
             padding: 0;
@@ -30,7 +31,7 @@
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             color: white;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .header h1 {
@@ -131,7 +132,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .tab-content.active {
@@ -149,7 +150,7 @@
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             cursor: pointer;
             border: 2px solid transparent;
@@ -158,7 +159,7 @@
 
         .menu-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         }
 
         .menu-item.selected {
@@ -191,7 +192,9 @@
             color: #333;
         }
 
-        .form-group input, .form-group textarea, .form-group select {
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 12px;
             border: 2px solid #ddd;
@@ -200,7 +203,9 @@
             transition: border-color 0.3s ease;
         }
 
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #4ecdc4;
         }
@@ -303,7 +308,8 @@
             transition: color 0.2s;
         }
 
-        .star.active, .star:hover {
+        .star.active,
+        .star:hover {
             color: #ffd700;
         }
 
@@ -385,6 +391,10 @@
 
         .notification.error {
             background: #f44336;
+        }
+
+        .notification.info {
+            background: #2196F3;
         }
 
         .upload-section {
@@ -506,24 +516,24 @@
                 max-width: 100px;
                 min-width: 80px;
             }
-            
+
             .role-icon {
                 width: 60px;
                 height: 60px;
                 font-size: 24px;
             }
-            
+
             .menu-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
                 gap: 15px;
             }
-            
+
             .tab-button {
                 padding: 10px 12px;
                 font-size: 12px;
                 min-width: 60px;
             }
-            
+
             .header h1 {
                 font-size: 1.5em;
             }
@@ -537,7 +547,6 @@
             <p>Zianna点餐助手，外婆不用愁，宝贝吃的香！</p>
         </div>
 
-        <!-- 角色选择页面 -->
         <div id="rolePage" class="page active">
             <div class="role-selection">
                 <button class="role-btn" onclick="switchRole('child')">
@@ -555,15 +564,12 @@
             </div>
         </div>
 
-        <!-- 内容页面 -->
         <div id="contentPage" class="page">
             <button class="back-btn" onclick="goToRolePage()">返回</button>
-            
-            <div class="tabs" id="tabsContainer">
-                <!-- 标签页将根据角色动态生成 -->
-            </div>
 
-            <!-- 点餐页面 -->
+            <div class="tabs" id="tabsContainer">
+                </div>
+
             <div id="order" class="tab-content">
                 <h2>📋 想吃啥点啥 </h2>
                 <div class="meal-type-buttons">
@@ -572,13 +578,11 @@
                     <button class="meal-type-btn" onclick="switchMealType('dinner')">🍲 晚餐</button>
                 </div>
                 <div class="menu-grid" id="menuGrid">
-                    <!-- 菜品将通过JavaScript动态加载 -->
-                </div>
+                    </div>
                 <div class="order-summary">
                     <h3>🛒 已选择菜品</h3>
                     <div class="selected-items" id="selectedItems">
-                        <!-- 选中的菜品将显示在这里 -->
-                    </div>
+                        </div>
                 </div>
                 <div class="action-buttons">
                     <button class="btn btn-primary" onclick="submitOrder()">提交点餐</button>
@@ -586,7 +590,6 @@
                 </div>
             </div>
 
-            <!-- 添加菜品页面 -->
             <div id="add" class="tab-content">
                 <h2>➕ 添加新菜品</h2>
                 <div class="form-group">
@@ -614,7 +617,6 @@
                 <button class="btn btn-primary" onclick="addDish()">添加菜品</button>
             </div>
 
-            <!-- 管理菜品页面 -->
             <div id="manage" class="tab-content">
                 <h2>🔧 管理现有菜品</h2>
                 <div style="margin-bottom: 15px;">
@@ -627,11 +629,9 @@
                     </select>
                 </div>
                 <div class="menu-grid" id="manageGrid">
-                    <!-- 菜品管理项将通过JavaScript动态加载 -->
-                </div>
+                    </div>
             </div>
 
-            <!-- 心愿单页面 -->
             <div id="wishlist" class="tab-content">
                 <h2>💝 我好想吃 </h2>
                 <div class="form-group">
@@ -645,134 +645,192 @@
                     <div id="wishlistImagePreview" style="margin-top: 10px;"></div>
                 </div>
                 <button class="btn btn-success" onclick="addToWishlist()">发给爸爸妈妈</button>
-                
+
                 <h3 style="margin-top: 20px;">心愿单列表</h3>
                 <div id="wishlistList">
-                    <!-- 心愿单将通过JavaScript动态加载 -->
-                </div>
+                    </div>
             </div>
 
-            <!-- 点餐记录页面 -->
             <div id="history" class="tab-content">
                 <h2>📅 点餐历史记录</h2>
                 <div id="historyList">
-                    <!-- 历史记录将通过JavaScript动态加载 -->
-                </div>
+                    </div>
             </div>
         </div>
     </div>
 
     <div class="notification" id="notification"></div>
 
+    <script src="//cdn.jsdelivr.net/npm/leancloud-storage@4.10.0/dist/av-min.js"></script>
+
     <script>
-        // 当前角色
-        let currentRole = null; // 默认为未选择角色
-        let currentMealType = 'breakfast'; // 默认为早餐
+        // =======================================================
+        // ========== 🚩 关键：LeanCloud 初始化配置 🚩 ==========
+        // =======================================================
+        AV.init({
+            appId: "4bOWfCdwX0wU6w7MEhEDrYui-gzGzoHsz",  // <<-- 替换为您的 App ID
+            appKey: "VZx0lrWmYJY2QiiKXfdFqXmI", // <<-- 替换为您的 App Key
+            serverURL: "https://4bowfcdw.lc-cn-n1-shared.com"     // <<-- 替换为您的 Server URL
+        });
 
-        // 菜品数据存储
-        let dishes = JSON.parse(localStorage.getItem('childMenuDishes')) || [
-            {
-                id: 1,
-                name: '牛奶',
-                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjZCIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk1pbGw8L3RleHQ+PC9zdmc+',
-                description: '营养丰富的早餐',
-                type: 'breakfast'
-            },
-            {
-                id: 2,
-                name: '鸡蛋',
-                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNEVDREM0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkVnZzwvdGV4dD48L3N2Zz4=',
-                description: '富含蛋白质',
-                type: 'breakfast'
-            },
-            {
-                id: 3,
-                name: '红烧肉',
-                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDVCN0QxIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlJvYXN0ZWQgUG9yazwvdGV4dD48L3N2Zz4=',
-                description: '香甜可口的中餐',
-                type: 'lunch'
-            },
-            {
-                id: 4,
-                name: '青菜',
-                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOTZDRUI0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkdyZWVuIFZlZ2V0YWJsZTwvdGV4dD48L3N2Zz4=',
-                description: '新鲜的绿叶蔬菜',
-                type: 'dinner'
+        // 定义 LeanCloud 的数据表（Class）
+        const Dish = AV.Object.extend('Dish');
+        const Order = AV.Object.extend('Order');
+        const Wishlist = AV.Object.extend('Wishlist');
+
+        // =======================================================
+        // ========== 全局状态变量 (不再使用 localStorage) ==========
+        // =======================================================
+        let currentRole = null; // 当前角色
+        let currentMealType = 'breakfast'; // 当前餐次类型
+        let selectedDishes = []; // 选中的菜品 ID 列表 (使用 LeanCloud objectId)
+        let currentImage = null; // 当前菜品图片 URL (用于添加菜品)
+        let currentWishlistImage = null; // 当前心愿单图片 URL
+
+        // =======================================================
+        // ========== 核心工具函数 (Notification & Upload) ==========
+        // =======================================================
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification show ${type}`;
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        /**
+         * LeanCloud 文件上传函数：将图片文件上传到云端并返回 URL
+         */
+        async function uploadImageToLeanCloud(file) {
+            if (!file) return null;
+            const leanFile = new AV.File(file.name, file);
+
+            showNotification('图片上传中，请稍候...', 'info');
+            try {
+                const result = await leanFile.save();
+                showNotification('图片上传成功！', 'success');
+                return result.url();
+            } catch (error) {
+                console.error("文件上传失败:", error);
+                showNotification('图片上传失败，请检查网络和权限！', 'error');
+                return null;
             }
-        ];
-
-        // 点餐记录存储
-        let orderHistory = JSON.parse(localStorage.getItem('childMenuOrderHistory')) || [];
-
-        // 心愿单存储
-        let wishlist = JSON.parse(localStorage.getItem('childMenuWishlist')) || [];
-
-        // 选中的菜品
-        let selectedDishes = [];
-        let currentImage = null;
-        let currentWishlistImage = null;
-
-        // 保存菜品到本地存储
-        function saveDishes() {
-            localStorage.setItem('childMenuDishes', JSON.stringify(dishes));
         }
 
-        // 保存点餐记录到本地存储
-        function saveOrderHistory() {
-            localStorage.setItem('childMenuOrderHistory', JSON.stringify(orderHistory));
+        // =======================================================
+        // ========== LeanCloud 数据读取函数 (替代 localStorage.getItem) ==========
+        // =======================================================
+
+        /**
+         * 获取所有菜品数据 (Dish Class)
+         */
+        async function fetchDishes() {
+            const query = new AV.Query('Dish');
+            query.descending('createdAt');
+            try {
+                const leanDishes = await query.find();
+                return leanDishes.map(d => ({
+                    objectId: d.id, // LeanCloud 对象的唯一ID
+                    name: d.get('name'),
+                    image: d.get('image') || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjREREIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+JiM4MjIwO1Vua25vd24gSW1hZ2UmIzgyMjE7PC90ZXh0Pjwvc3ZnPg==',
+                    description: d.get('description'),
+                    type: d.get('type')
+                }));
+            } catch (error) {
+                console.error("获取菜品失败:", error);
+                showNotification('获取菜品失败，请检查网络和配置！', 'error');
+                return [];
+            }
         }
 
-        // 保存心愿单到本地存储
-        function saveWishlist() {
-            localStorage.setItem('childMenuWishlist', JSON.stringify(wishlist));
+        /**
+         * 获取点餐历史 (Order Class)
+         */
+        async function fetchOrderHistory() {
+            const query = new AV.Query('Order');
+            query.descending('createdAt');
+            query.limit(100);
+            try {
+                const orders = await query.find();
+                return orders.map(o => ({
+                    objectId: o.id,
+                    // 使用 createdAt 时间戳作为日期，更精确
+                    date: new Date(o.get('createdAt')).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }),
+                    mealType: o.get('mealType'),
+                    dishes: o.get('dishes') || [], 
+                    rating: o.get('rating') || 0,
+                    comment: o.get('comment') || '',
+                    role: o.get('role') || '未知角色' // 确保记录了角色
+                }));
+            } catch (error) {
+                console.error("获取订单失败:", error);
+                showNotification('获取点餐记录失败！', 'error');
+                return [];
+            }
         }
 
-        // 切换角色
+        /**
+         * 获取心愿单列表 (Wishlist Class)
+         */
+        async function fetchWishlist() {
+            const query = new AV.Query('Wishlist');
+            query.descending('createdAt');
+            try {
+                const wishes = await query.find();
+                return wishes.map(w => ({
+                    objectId: w.id,
+                    text: w.get('text'),
+                    image: w.get('image')
+                }));
+            } catch (error) {
+                console.error("获取心愿单失败:", error);
+                showNotification('获取心愿单失败！', 'error');
+                return [];
+            }
+        }
+
+
+        // =======================================================
+        // ========== 页面切换及核心业务逻辑 (已更新为 async) ==========
+        // =======================================================
+
         function switchRole(role) {
             currentRole = role;
-            
-            // 隐藏角色选择页面，显示内容页面
+
             document.getElementById('rolePage').classList.remove('active');
             document.getElementById('contentPage').classList.add('active');
-            
-            // 根据角色生成标签页
+
             generateTabs();
         }
 
-        // 返回角色选择页面
         function goToRolePage() {
             document.getElementById('contentPage').classList.remove('active');
             document.getElementById('rolePage').classList.add('active');
             currentRole = null;
+            selectedDishes = []; // 返回时清空选择
         }
 
-        // 根据角色生成标签页
         function generateTabs() {
+            // ... (此函数逻辑保持不变)
             const tabsContainer = document.getElementById('tabsContainer');
             tabsContainer.innerHTML = '';
-            
-            // 隐藏所有内容区域
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
+            // ... (同上，不再重复粘贴)
+
             let tabs = [];
-            
             if (currentRole === 'child') {
-                // 孩子角色：我要点餐、点餐记录、心愿单
                 tabs = [
                     { id: 'order', name: '我要点餐', icon: '📋' },
                     { id: 'history', name: '点餐记录', icon: '📅' },
                     { id: 'wishlist', name: '心愿单', icon: '💝' }
                 ];
             } else if (currentRole === 'grandma') {
-                // 外婆角色：点餐记录、心愿单
                 tabs = [
                     { id: 'history', name: '点餐记录', icon: '📅' },
                     { id: 'wishlist', name: '心愿单', icon: '💝' }
                 ];
             } else if (currentRole === 'parent') {
-                // 父母角色：心愿单、点餐记录、管理菜品、添加菜品
                 tabs = [
                     { id: 'wishlist', name: '心愿单', icon: '💝' },
                     { id: 'history', name: '点餐记录', icon: '📅' },
@@ -780,90 +838,109 @@
                     { id: 'add', name: '添加菜品', icon: '➕' }
                 ];
             }
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
             
-            // 创建标签按钮
             tabs.forEach(tab => {
                 const button = document.createElement('button');
                 button.className = 'tab-button';
-                button.onclick = () => switchTab(tab.id);
+                button.onclick = (e) => switchTab(tab.id, e); // 传递 event 对象
                 button.innerHTML = `<div class="tab-icon">${tab.icon}</div><div>${tab.name}</div>`;
                 tabsContainer.appendChild(button);
             });
-            
-            // 激活第一个标签
+
             if (tabs.length > 0) {
-                document.querySelector('.tab-button').classList.add('active');
-                document.getElementById(tabs[0].id).classList.add('active');
-                
-                // 根据当前角色和标签重新渲染内容
-                if (tabs[0].id === 'order') {
-                    renderMenu(currentMealType);
-                } else if (tabs[0].id === 'manage') {
-                    filterManageDishes();
-                } else if (tabs[0].id === 'history') {
-                    renderHistory();
-                } else if (tabs[0].id === 'wishlist') {
-                    renderWishlist();
+                const firstButton = tabsContainer.querySelector('.tab-button');
+                if (firstButton) {
+                    firstButton.classList.add('active');
+                    document.getElementById(tabs[0].id).classList.add('active');
+                    // 首次加载内容
+                    loadTabContent(tabs[0].id);
                 }
             }
         }
 
-        // 切换标签页
-        function switchTab(tabName) {
-            // 隐藏所有标签内容
+        function switchTab(tabName, event) {
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            // 移除所有按钮的激活状态
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.classList.remove('active');
             });
-            
-            // 激活选中的标签
-            event.target.classList.add('active');
+
+            // 确保点击的是按钮本身
+            let targetButton = event.target.closest('.tab-button');
+            if (targetButton) {
+                targetButton.classList.add('active');
+            } else {
+                // 如果是直接调用的 switchTab, 尝试找到对应的按钮激活
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    if(btn.textContent.includes(document.getElementById(tabName).querySelector('h2').textContent.split(' ')[1])) {
+                         btn.classList.add('active');
+                    }
+                });
+            }
+
             document.getElementById(tabName).classList.add('active');
-            
+            loadTabContent(tabName);
+        }
+
+        async function loadTabContent(tabName) {
             // 根据标签重新加载内容
             if(tabName === 'order') {
-                renderMenu(currentMealType);
+                await renderMenu(currentMealType);
             } else if(tabName === 'manage') {
-                filterManageDishes();
+                await filterManageDishes();
             } else if(tabName === 'history') {
-                renderHistory();
+                await renderHistory();
             } else if(tabName === 'wishlist') {
-                renderWishlist();
+                await renderWishlist();
             }
         }
 
-        // 切换餐次类型
         function switchMealType(mealType) {
             currentMealType = mealType;
-            
-            // 更新按钮状态
+
             document.querySelectorAll('.meal-type-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
-            
-            // 重新渲染菜单
-            renderMenu(mealType);
+
+            renderMenu(mealType); // 重新渲染菜单
         }
 
-        // 渲染菜单（根据类型过滤）
-        function renderMenu(dishType = 'breakfast') {
+        // =======================================================
+        // ========== 点餐页 (Order, Child Role) ==========
+        // =======================================================
+
+        /**
+         * 渲染菜单 (从 LeanCloud 获取数据)
+         */
+        async function renderMenu(dishType = 'breakfast') {
             const menuGrid = document.getElementById('menuGrid');
+            menuGrid.innerHTML = '正在加载菜单...';
+            
+            const allDishes = await fetchDishes(); // <--- 从 LeanCloud 获取
             menuGrid.innerHTML = '';
             
-            const filteredDishes = dishes.filter(d => d.type === dishType);
+            const filteredDishes = allDishes.filter(d => d.type === dishType);
             
+            if (filteredDishes.length === 0) {
+                menuGrid.innerHTML = '<p style="text-align: center;">暂无菜品，请联系父母添加。</p>';
+                updateSelectedItems(allDishes);
+                return;
+            }
+
             filteredDishes.forEach(dish => {
                 const menuItem = document.createElement('div');
                 menuItem.className = 'menu-item';
                 
-                // 只有孩子角色可以点击选择
                 if (currentRole === 'child') {
-                    menuItem.onclick = () => toggleDishSelection(dish.id);
-                    if(selectedDishes.includes(dish.id)) {
+                    // 使用 objectId 进行选择标记
+                    menuItem.onclick = () => toggleDishSelection(dish.objectId); 
+                    if(selectedDishes.includes(dish.objectId)) {
                         menuItem.classList.add('selected');
                     }
                 }
@@ -876,55 +953,57 @@
                 menuGrid.appendChild(menuItem);
             });
             
-            updateSelectedItems();
+            updateSelectedItems(allDishes); // 传入所有菜品数据
         }
 
-        // 切换菜品选择状态（仅孩子角色）
-        function toggleDishSelection(dishId) {
+        function toggleDishSelection(dishObjectId) {
             if (currentRole !== 'child') return;
             
-            const index = selectedDishes.indexOf(dishId);
+            const index = selectedDishes.indexOf(dishObjectId);
             if(index > -1) {
                 selectedDishes.splice(index, 1);
             } else {
-                selectedDishes.push(dishId);
+                selectedDishes.push(dishObjectId);
             }
             // 重新渲染当前筛选的菜单
-            renderMenu(currentMealType);
+            renderMenu(currentMealType); 
         }
 
-        // 更新已选择的菜品显示
-        function updateSelectedItems() {
+        async function updateSelectedItems(allDishes) {
             const selectedItemsDiv = document.getElementById('selectedItems');
             selectedItemsDiv.innerHTML = '';
             
+            if (!allDishes) {
+                 allDishes = await fetchDishes(); // 如果未传入，则远程获取
+            }
+
             if (currentRole !== 'child') return;
             
-            selectedDishes.forEach(id => {
-                const dish = dishes.find(d => d.id === id);
+            selectedDishes.forEach(objectId => {
+                const dish = allDishes.find(d => d.objectId === objectId);
                 if(dish) {
                     const itemSpan = document.createElement('span');
                     itemSpan.className = 'selected-item';
-                    itemSpan.innerHTML = `${dish.name} <span class="delete-dish" onclick="removeDishFromSelection(${id})">×</span>`;
+                    itemSpan.innerHTML = `${dish.name} <span class="delete-dish" onclick="removeDishFromSelection('${objectId}')">×</span>`;
                     selectedItemsDiv.appendChild(itemSpan);
                 }
             });
         }
 
-        // 从选择中移除菜品（仅孩子角色）
-        function removeDishFromSelection(dishId) {
+        function removeDishFromSelection(dishObjectId) {
             if (currentRole !== 'child') return;
             
-            const index = selectedDishes.indexOf(dishId);
+            const index = selectedDishes.indexOf(dishObjectId);
             if(index > -1) {
                 selectedDishes.splice(index, 1);
-                // 重新渲染当前筛选的菜单
-                renderMenu(currentMealType);
+                renderMenu(currentMealType); 
             }
         }
 
-        // 提交点餐（仅孩子角色）
-        function submitOrder() {
+        /**
+         * 提交点餐 (保存到 Order Class)
+         */
+        async function submitOrder() {
             if (currentRole !== 'child') return;
             
             if(selectedDishes.length === 0) {
@@ -932,34 +1011,50 @@
                 return;
             }
             
-            const selectedNames = selectedDishes.map(id => {
-                const dish = dishes.find(d => d.id === id);
-                return dish ? dish.name : '';
-            }).filter(name => name !== '');
+            const allDishes = await fetchDishes();
             
-            const orderRecord = {
-                id: Date.now(), // 为每条记录添加唯一ID，便于后续修改
-                date: new Date().toLocaleDateString('zh-CN'),
-                mealType: currentMealType,
-                dishes: selectedDishes.map(id => {
-                    const dish = dishes.find(d => d.id === id);
-                    return { id: dish.id, name: dish.name, type: dish.type, image: dish.image };
-                }),
-                rating: 0, // 初始评分为0，等待用户评价
-                comment: '' // 初始评价留言为空
-            };
-            
-            orderHistory.push(orderRecord);
-            saveOrderHistory();
-            
-            showNotification(`点餐成功！${getMealTypeName(currentMealType)}菜品：${selectedNames.join('、')}`, 'success');
-            
-            // 清空选择
-            selectedDishes = [];
-            renderMenu(currentMealType); // 重新渲染点餐页面
+            // 准备要存储的菜品详情，包含图片 URL 和名称
+            const dishesToSave = selectedDishes.map(objectId => {
+                const dish = allDishes.find(d => d.objectId === objectId);
+                return dish ? { 
+                    name: dish.name, 
+                    type: dish.type, 
+                    image: dish.image,
+                    dishId: dish.objectId 
+                } : null;
+            }).filter(d => d !== null);
+
+            if (dishesToSave.length === 0) {
+                 showNotification('菜品数据获取异常，请重试！', 'error');
+                 return;
+            }
+
+            const orderObj = new Order();
+            orderObj.set('mealType', currentMealType);
+            orderObj.set('dishes', dishesToSave); // 存储包含图片的完整菜品数组
+            orderObj.set('rating', 0);
+            orderObj.set('comment', '');
+            orderObj.set('role', currentRole); // 存储操作角色
+
+            try {
+                await orderObj.save(); // 跨端同步保存
+                showNotification(`点餐成功！${getMealTypeName(currentMealType)}已提交`, 'success');
+                
+                selectedDishes = [];
+                renderMenu(currentMealType); // 刷新点餐页面
+            } catch (error) {
+                console.error("提交订单失败:", error);
+                showNotification('提交订单失败！', 'error');
+            }
         }
 
-        // 获取餐次类型名称
+        function clearSelection() {
+            if (currentRole !== 'child') return;
+            selectedDishes = [];
+            renderMenu(currentMealType);
+            showNotification('已清空选择', 'success');
+        }
+
         function getMealTypeName(type) {
             switch(type) {
                 case 'breakfast': return '早餐';
@@ -969,333 +1064,350 @@
             }
         }
 
-        // 清空选择（仅孩子角色）
-        function clearSelection() {
-            if (currentRole !== 'child') return;
-            
-            selectedDishes = [];
-            renderMenu(currentMealType);
-            showNotification('已清空选择', 'success');
-        }
+        // =======================================================
+        // ========== 菜品管理 (Add, Manage, Parent Role) ==========
+        // =======================================================
 
-        // 添加菜品（仅父母角色）
-        function addDish() {
+        /**
+         * 添加菜品 (保存到 Dish Class)
+         */
+        async function addDish() {
             if (currentRole !== 'parent') return;
             
-            const name = document.getElementById('newDishName').value;
+            const name = document.getElementById('newDishName').value.trim();
             const type = document.getElementById('newDishType').value;
             const description = document.getElementById('newDishDescription').value;
             
+            if (!name) {
+                showNotification('请输入菜品名称！', 'error');
+                return;
+            }
             if (!currentImage) {
                 showNotification('请上传菜品图片！', 'error');
                 return;
             }
             
-            const newDish = {
-                id: Date.now(), // 使用时间戳作为唯一ID
-                name: name,
-                image: currentImage,
-                description: description,
-                type: type
-            };
-            
-            dishes.push(newDish);
-            saveDishes();
-            
-            // 清空表单
-            document.getElementById('newDishName').value = '';
-            document.getElementById('newDishDescription').value = '';
-            document.getElementById('imagePreview').innerHTML = '';
-            currentImage = null;
-            
-            showNotification('菜品添加成功！', 'success');
-            
-            // 切换回点餐页面
-            switchTab('order');
+            const newDish = new Dish();
+            newDish.set('name', name);
+            newDish.set('type', type);
+            newDish.set('description', description);
+            newDish.set('image', currentImage); // 存储图片 URL
+
+            try {
+                await newDish.save(); // 跨端同步保存
+                showNotification('菜品添加成功！', 'success');
+                
+                // 清空表单
+                document.getElementById('newDishName').value = '';
+                document.getElementById('newDishDescription').value = '';
+                document.getElementById('imagePreview').innerHTML = '';
+                currentImage = null;
+                
+                // 切换到管理页面或点餐页面
+                switchTab('manage', { target: document.querySelector('.tab-button[onclick*="manage"]') });
+            } catch (error) {
+                 console.error("添加菜品失败:", error);
+                 showNotification('添加菜品失败！', 'error');
+            }
         }
 
-        // 渲染管理菜单（根据类型过滤，仅父母角色）
-        function renderManageMenu(dishType = 'all') {
+        /**
+         * 渲染管理菜品列表 (从 LeanCloud 获取 Dish Class)
+         */
+        async function filterManageDishes() {
             if (currentRole !== 'parent') return;
             
             const manageGrid = document.getElementById('manageGrid');
+            manageGrid.innerHTML = '正在加载菜品列表...';
+            
+            const selectedType = document.getElementById('manageType').value;
+            const allDishes = await fetchDishes(); // 从 LeanCloud 获取
+            
+            const filtered = allDishes.filter(d => selectedType === 'all' || d.type === selectedType);
+            
             manageGrid.innerHTML = '';
-            
-            const filteredDishes = dishType === 'all' ? dishes : dishes.filter(d => d.type === dishType);
-            
-            filteredDishes.forEach(dish => {
-                const menuItem = document.createElement('div');
-                menuItem.className = 'menu-item';
-                
-                menuItem.innerHTML = `
-                    <img src="${dish.image}" alt="${dish.name}" class="menu-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjREREIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+JiM4MjIwO1Vua25vd24gSW1hZ2UmIzgyMjE7PC90ZXh0Pjwvc3ZnPg=='">
+
+            if (filtered.length === 0) {
+                 manageGrid.innerHTML = '<p style="text-align: center;">该餐次暂无菜品。</p>';
+                 return;
+            }
+
+            filtered.forEach(dish => {
+                const dishItem = document.createElement('div');
+                dishItem.className = 'menu-item';
+                dishItem.style.position = 'relative';
+                dishItem.innerHTML = `
+                    <img src="${dish.image}" alt="${dish.name}" class="menu-image" onerror="this.src='data:image/svg+xml;base64,...'">
                     <div class="menu-name">${dish.name} (${getMealTypeName(dish.type)})</div>
-                    <div style="padding: 8px; text-align: center;">
-                        <button class="btn btn-danger" onclick="deleteDish(${dish.id})" style="margin-right: 5px;">删除</button>
-                    </div>
+                    <button class="btn btn-danger" style="width: 100%; border-radius: 0; margin-top: -5px;" onclick="deleteDish('${dish.objectId}')">删除</button>
                 `;
-                
-                manageGrid.appendChild(menuItem);
+                manageGrid.appendChild(dishItem);
             });
         }
 
-        // 删除菜品（仅父母角色）
-        function deleteDish(dishId) {
+        /**
+         * 删除菜品 (从 Dish Class 删除)
+         */
+        async function deleteDish(dishObjectId) {
             if (currentRole !== 'parent') return;
-            
-            if(confirm('确定要删除这道菜吗？')) {
-                dishes = dishes.filter(dish => dish.id !== dishId);
-                saveDishes();
-                // 重新渲染管理页面
-                const currentType = document.getElementById('manageType').value;
-                renderManageMenu(currentType);
-                // 重新渲染点餐页面
-                renderMenu(currentMealType);
+
+            if (!confirm('确定要删除这道菜品吗？')) return;
+
+            const dishToDelete = AV.Object.createWithoutData('Dish', dishObjectId);
+            try {
+                await dishToDelete.destroy();
                 showNotification('菜品删除成功！', 'success');
+                filterManageDishes(); // 刷新管理列表
+            } catch (error) {
+                console.error("删除菜品失败:", error);
+                showNotification('删除失败！', 'error');
             }
         }
 
-        // 显示通知
-        function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type} show`;
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+        // =======================================================
+        // ========== 心愿单 (Wishlist Class) ==========
+        // =======================================================
 
-        // 渲染历史记录
-        function renderHistory() {
-            const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';
-            
-            if (orderHistory.length === 0) {
-                historyList.innerHTML = '<p style="text-align: center; color: #999;">暂无点餐记录</p>';
-                return;
-            }
-            
-            // 按日期倒序排列
-            const sortedHistory = [...orderHistory].sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            sortedHistory.forEach((record, index) => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                
-                const dishNames = record.dishes.map(d => d.name).join('、');
-                
-                // 创建菜品图片列表
-                let dishImages = '<div class="history-dishes-list">';
-                record.dishes.forEach(dish => {
-                    dishImages += `
-                        <div class="history-dish-item">
-                            <img src="${dish.image}" alt="${dish.name}" class="history-dish-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0RERC8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmaWxsPSIjMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGRsZSI+JiM4MjIwO1Vua25vd24mIzgyMjE7PC90ZXh0Pjwvc3ZnPg=='">
-                            <div class="history-dish-name">${dish.name}</div>
-                        </div>
-                    `;
-                });
-                dishImages += '</div>';
-                
-                let ratingDisplay = '';
-                if (record.rating > 0) {
-                    ratingDisplay = `<div class="history-rating">评价：${'★'.repeat(record.rating)}${'☆'.repeat(5 - record.rating)}</div>`;
-                    if (record.comment) {
-                        ratingDisplay += `<div style="margin-top: 5px; font-size: 12px; color: #666;">评价留言：${record.comment}</div>`;
-                    }
-                } else {
-                    // 只有孩子角色可以评价
-                    if (currentRole === 'child') {
-                        ratingDisplay = `
-                            <div class="rating" id="rating-${index}">
-                                <span class="star" onclick="rateOrder(${index}, 1)">★</span>
-                                <span class="star" onclick="rateOrder(${index}, 2)">★</span>
-                                <span class="star" onclick="rateOrder(${index}, 3)">★</span>
-                                <span class="star" onclick="rateOrder(${index}, 4)">★</span>
-                                <span class="star" onclick="rateOrder(${index}, 5)">★</span>
-                            </div>
-                            <div class="rating-comment">
-                                <textarea id="comment-${index}" placeholder="请输入评价留言（可选）"></textarea>
-                            </div>
-                        `;
-                    } else {
-                        ratingDisplay = '<div class="history-rating">未评价</div>';
-                    }
-                }
-                
-                // 添加修改和删除按钮（仅孩子角色）
-                let actionButtons = '';
-                if (currentRole === 'child') {
-                    actionButtons = `
-                        <div style="margin-top: 10px; display: flex; gap: 8px;">
-                            <button class="btn btn-primary" onclick="modifyOrder(${index})" style="flex: 1; padding: 8px;">修改</button>
-                            <button class="btn btn-danger" onclick="deleteOrder(${index})" style="flex: 1; padding: 8px;">删除</button>
-                        </div>
-                    `;
-                }
-                
-                historyItem.innerHTML = `
-                    <div class="history-date">${record.date} ${getMealTypeName(record.mealType)}</div>
-                    <div class="history-dishes">点餐：${dishNames}</div>
-                    ${dishImages}
-                    ${ratingDisplay}
-                    ${actionButtons}
-                `;
-                
-                historyList.appendChild(historyItem);
-            });
-        }
-
-        // 评价点餐（仅孩子角色）
-        function rateOrder(recordIndex, rating) {
-            if (currentRole !== 'child') return;
-            
-            const comment = document.getElementById(`comment-${recordIndex}`)?.value || '';
-            
-            orderHistory[recordIndex].rating = rating;
-            orderHistory[recordIndex].comment = comment;
-            saveOrderHistory();
-            showNotification('评价成功！', 'success');
-            // 重新渲染历史记录以更新评价显示
-            renderHistory();
-        }
-
-        // 修改点餐（仅孩子角色）
-        function modifyOrder(recordIndex) {
-            if (currentRole !== 'child') return;
-            
-            const record = orderHistory[recordIndex];
-            // 将选中的菜品设置为当前选中的菜品
-            selectedDishes = record.dishes.map(d => d.id);
-            // 设置当前餐次类型
-            currentMealType = record.mealType;
-            // 更新餐次按钮状态
-            document.querySelectorAll('.meal-type-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`[onclick="switchMealType('${record.mealType}')"]`).classList.add('active');
-            // 切换到点餐页面
-            switchTab('order');
-            // 显示通知
-            showNotification('已加载点餐记录，可以修改后重新提交', 'success');
-        }
-
-        // 删除点餐记录（仅孩子角色）
-        function deleteOrder(recordIndex) {
-            if (currentRole !== 'child') return;
-            
-            if(confirm('确定要删除这条点餐记录吗？')) {
-                orderHistory.splice(recordIndex, 1);
-                saveOrderHistory();
-                showNotification('点餐记录删除成功！', 'success');
-                // 重新渲染历史记录
-                renderHistory();
-            }
-        }
-
-        // 过滤管理页面的菜品
-        function filterManageDishes() {
-            const type = document.getElementById('manageType').value;
-            renderManageMenu(type);
-        }
-
-        // 图片上传预览
-        document.getElementById('imageUpload').addEventListener('change', function(e) {
-            if (currentRole !== 'parent') return;
-            
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentImage = e.target.result;
-                    document.getElementById('imagePreview').innerHTML = `
-                        <img src="${currentImage}" alt="预览图片" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;">
-                    `;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // 心愿单图片上传预览
-        document.getElementById('wishlistImageUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentWishlistImage = e.target.result;
-                    document.getElementById('wishlistImagePreview').innerHTML = `
-                        <img src="${currentWishlistImage}" alt="心愿图片" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;">
-                    `;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // 添加到心愿单
-        function addToWishlist() {
+        /**
+         * 添加心愿单 (保存到 Wishlist Class)
+         */
+        async function addToWishlist() {
             const text = document.getElementById('wishlistText').value.trim();
-            const image = currentWishlistImage;
             
-            if (!text && !image) {
-                showNotification('请输入心愿或上传图片！', 'error');
+            if (!text && !currentWishlistImage) {
+                showNotification('请输入文字或上传图片！', 'error');
                 return;
             }
-            
-            const wishlistItem = {
-                id: Date.now(),
-                text: text,
-                image: image,
-                date: new Date().toLocaleDateString('zh-CN')
-            };
-            
-            wishlist.push(wishlistItem);
-            saveWishlist();
-            
-            // 清空表单
-            document.getElementById('wishlistText').value = '';
-            document.getElementById('wishlistImagePreview').innerHTML = '';
-            currentWishlistImage = null;
-            
-            showNotification('心愿提交成功！', 'success');
-            
-            // 重新渲染心愿单页面
-            renderWishlist();
+
+            const wish = new Wishlist();
+            wish.set('text', text);
+            wish.set('image', currentWishlistImage); // 存储图片 URL
+            wish.set('role', currentRole); // 记录是哪个角色提的心愿单
+
+            try {
+                await wish.save();
+                showNotification('心愿单已成功发送给爸爸妈妈！', 'success');
+
+                // 清空表单
+                document.getElementById('wishlistText').value = '';
+                document.getElementById('wishlistImagePreview').innerHTML = '';
+                currentWishlistImage = null;
+                
+                renderWishlist(); // 刷新心愿单列表
+            } catch (error) {
+                 console.error("添加心愿单失败:", error);
+                 showNotification('发送心愿单失败！', 'error');
+            }
         }
 
-        // 渲染心愿单
-        function renderWishlist() {
+        /**
+         * 渲染心愿单列表 (从 LeanCloud 获取 Wishlist Class)
+         */
+        async function renderWishlist() {
             const wishlistList = document.getElementById('wishlistList');
+            wishlistList.innerHTML = '正在加载心愿单...';
+            
+            const allWishes = await fetchWishlist(); // 从 LeanCloud 获取
             wishlistList.innerHTML = '';
-            
-            if (wishlist.length === 0) {
-                wishlistList.innerHTML = '<p style="text-align: center; color: #999;">暂无心愿单</p>';
-                return;
+
+            if (allWishes.length === 0) {
+                 wishlistList.innerHTML = '<p style="text-align: center;">暂无心愿单记录。</p>';
+                 return;
             }
-            
-            // 按日期倒序排列
-            const sortedWishlist = [...wishlist].sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            sortedWishlist.forEach(item => {
-                const wishlistItem = document.createElement('div');
-                wishlistItem.className = 'wishlist-item';
-                
-                let content = `<div class="wishlist-text">${item.text || '（无文字描述）'}</div>`;
-                if (item.image) {
-                    content += `<img src="${item.image}" alt="心愿图片" class="wishlist-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI0RERC8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmaWxsPSIjMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGRsZSI+JiM4MjIwO1Vua25vd24mIzgyMjE7PC90ZXh0Pjwvc3ZnPg=='">`;
-                }
-                
-                wishlistItem.innerHTML = content;
-                
-                wishlistList.appendChild(wishlistItem);
+
+            allWishes.forEach(wish => {
+                const item = document.createElement('div');
+                item.className = 'wishlist-item';
+                item.innerHTML = `
+                    <div class="wishlist-text">
+                        ${wish.text ? `<strong>文字:</strong> ${wish.text}<br>` : ''}
+                        <small>来自: ${wish.role === 'child' ? '孩子' : wish.role}</small>
+                    </div>
+                    ${wish.image ? `<img src="${wish.image}" class="wishlist-image" alt="心愿图片">` : ''}
+                    ${currentRole === 'parent' ? `<button class="btn btn-danger btn-sm" onclick="deleteWishlistItem('${wish.objectId}')">× 删除</button>` : ''}
+                `;
+                wishlistList.appendChild(item);
             });
         }
 
-        // 页面加载时初始化
-        window.onload = function() {
-            // 默认显示角色选择页面
-            document.getElementById('rolePage').classList.add('active');
-            document.getElementById('contentPage').classList.remove('active');
-        };
+        /**
+         * 删除心愿单 (仅父母角色)
+         */
+        async function deleteWishlistItem(wishObjectId) {
+            if (currentRole !== 'parent') return;
+
+            if (!confirm('确定要删除这条心愿单记录吗？')) return;
+
+            const wishToDelete = AV.Object.createWithoutData('Wishlist', wishObjectId);
+            try {
+                await wishToDelete.destroy();
+                showNotification('心愿单删除成功！', 'success');
+                renderWishlist(); // 刷新心愿单列表
+            } catch (error) {
+                console.error("删除心愿单失败:", error);
+                showNotification('删除失败！', 'error');
+            }
+        }
+
+
+        // =======================================================
+        // ========== 历史记录 (History Class) ==========
+        // =======================================================
+
+        /**
+         * 渲染点餐历史记录 (从 LeanCloud 获取 Order Class)
+         */
+        async function renderHistory() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '正在加载历史记录...';
+
+            const allHistory = await fetchOrderHistory(); // 从 LeanCloud 获取
+            historyList.innerHTML = '';
+
+            if (allHistory.length === 0) {
+                 historyList.innerHTML = '<p style="text-align: center;">暂无点餐历史记录。</p>';
+                 return;
+            }
+
+            allHistory.forEach(record => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                
+                // 渲染点餐菜品列表，包含图片和名称
+                let dishesHtml = record.dishes.map(dish => `
+                    <div class="history-dish-item">
+                        <img src="${dish.image}" alt="${dish.name}" class="history-dish-image">
+                        <div class="history-dish-name">${dish.name}</div>
+                    </div>
+                `).join('');
+
+                // 渲染评价星级
+                let ratingStars = '';
+                for (let i = 1; i <= 5; i++) {
+                    ratingStars += `<span class="star ${i <= record.rating ? 'active' : ''}">★</span>`;
+                }
+
+                item.innerHTML = `
+                    <div class="history-date">${record.date} - ${getMealTypeName(record.mealType)} (操作人: ${record.role})</div>
+                    <div class="history-dishes">
+                        <strong>点选菜品:</strong>
+                        <div class="history-dishes-list">${dishesHtml}</div>
+                    </div>
+                    
+                    <div class="rating-area" data-id="${record.objectId}">
+                        <strong>外婆手艺评价:</strong>
+                        <div class="rating" id="rating-${record.objectId}">${ratingStars}</div>
+                        ${record.comment ? `<p style="margin-top: 5px;"><strong>留言:</strong> ${record.comment}</p>` : ''}
+                    </div>
+
+                    ${currentRole === 'child' && record.rating === 0 ? `
+                        <div class="rating-comment">
+                            <textarea id="comment-${record.objectId}" placeholder="留下你的评价留言..." style="margin-bottom: 5px;"></textarea>
+                            <button class="btn btn-success" onclick="submitRating('${record.objectId}')">提交评价</button>
+                        </div>
+                    ` : ''}
+
+                    ${currentRole === 'child' ? `<button class="btn btn-danger" style="margin-top: 10px;" onclick="deleteHistoryItem('${record.objectId}')">删除记录</button>` : ''}
+                `;
+                historyList.appendChild(item);
+            });
+            
+            // 绑定星级点击事件（仅孩子角色可以评价）
+            if (currentRole === 'child') {
+                 document.querySelectorAll('.rating-area').forEach(area => {
+                    const objectId = area.dataset.id;
+                    area.querySelectorAll('.star').forEach((star, index) => {
+                        star.onclick = () => {
+                            // 实时预览星级，但尚未提交
+                            area.querySelectorAll('.star').forEach((s, i) => {
+                                s.classList.toggle('active', i <= index);
+                            });
+                            // 存储当前选择的星级到 DOM 属性，方便提交时获取
+                            document.getElementById(`rating-${objectId}`).dataset.tempRating = index + 1;
+                        };
+                    });
+                 });
+            }
+        }
+
+
+        /**
+         * 删除点餐历史记录 (仅孩子角色)
+         */
+        async function deleteHistoryItem(orderObjectId) {
+            if (currentRole !== 'child') return;
+
+            if (!confirm('确定要删除这条点餐记录吗？')) return;
+
+            const orderToDelete = AV.Object.createWithoutData('Order', orderObjectId);
+            try {
+                await orderToDelete.destroy();
+                showNotification('点餐记录删除成功！', 'success');
+                renderHistory(); // 刷新历史记录列表
+            } catch (error) {
+                console.error("删除订单失败:", error);
+                showNotification('删除失败！', 'error');
+            }
+        }
+
+        /**
+         * 提交评价 (更新 Order Class)
+         */
+        async function submitRating(orderObjectId) {
+            if (currentRole !== 'child') return;
+
+            const ratingElement = document.getElementById(`rating-${orderObjectId}`);
+            const comment = document.getElementById(`comment-${orderObjectId}`).value.trim();
+            const rating = parseInt(ratingElement.dataset.tempRating) || 0;
+
+            if (rating === 0) {
+                showNotification('请至少选择一颗星进行评价！', 'error');
+                return;
+            }
+
+            const orderToUpdate = AV.Object.createWithoutData('Order', orderObjectId);
+            orderToUpdate.set('rating', rating);
+            orderToUpdate.set('comment', comment);
+
+            try {
+                await orderToUpdate.save(); // 跨端同步更新
+                showNotification('评价提交成功！', 'success');
+                renderHistory(); // 刷新历史记录以显示最新评价
+            } catch (error) {
+                console.error("提交评价失败:", error);
+                showNotification('提交评价失败！', 'error');
+            }
+        }
+
+
+        // =======================================================
+        // ========== 事件监听 (图片上传) ==========
+        // =======================================================
+
+        // 父母 - 添加菜品图片上传
+        document.getElementById('imageUpload').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const imageUrl = await uploadImageToLeanCloud(file);
+                if (imageUrl) {
+                    currentImage = imageUrl;
+                    document.getElementById('imagePreview').innerHTML = `<img src="${imageUrl}" style="max-width: 100%; max-height: 150px; border-radius: 8px;">`;
+                }
+            }
+        });
+
+        // 孩子/父母 - 心愿单图片上传
+        document.getElementById('wishlistImageUpload').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const imageUrl = await uploadImageToLeanCloud(file);
+                if (imageUrl) {
+                    currentWishlistImage = imageUrl;
+                    document.getElementById('wishlistImagePreview').innerHTML = `<img src="${imageUrl}" style="max-width: 100%; max-height: 150px; border-radius: 8px;">`;
+                }
+            }
+        });
     </script>
 </body>
 </html>
+

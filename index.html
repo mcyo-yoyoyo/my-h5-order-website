@@ -1,6 +1,73 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@4.10.0/dist/av-min.js"></script>
+
+<script>
+    // ***** 替换点 A 和 B *****
+    AV.init({
+      appId: 4bOWfCdwX0wU6w7MEhEDrYui-gzGzoHsz,  
+      appKey: VZx0lrWmYJY2QiiKXfdFqXmI
+    });
+
+    // 假设这是您的 H5 页面中实际调用保存数据的函数
+    function saveOrder() {
+        // 获取用户输入的数据 (您需要根据您的页面表单获取)
+        const userInputData = document.getElementById('dingdan-shuru-kuang').value; 
+        
+        // 3. 定义数据对象 (Class 名称必须是 OrderData)
+        const OrderData = AV.Object.extend('OrderData');
+        const order = new OrderData();
+
+        // 4. 设置要保存的数据字段 (字段名必须是 content 和 timestamp)
+        order.set('content', userInputData); 
+        order.set('timestamp', new Date());
+
+        // 5. 执行保存
+        order.save().then((savedOrder) => {
+            alert('订单数据已成功同步到云端！');
+            // 保存成功后，最好立即调用读取函数刷新页面数据
+            fetchAllOrders(); 
+        }).catch((error) => {
+            alert('数据保存失败，请检查网络或 LeanCloud Keys 是否正确。');
+            console.error('保存失败:', error);
+        });
+    }
+
+    // 假设这是您的 H5 页面中实际调用读取数据的函数 (页面加载时调用)
+    function fetchAllOrders() {
+        const query = new AV.Query('OrderData');
+        // 按时间倒序排列，最新数据在前
+        query.descending('timestamp'); 
+        query.limit(100); // 限制最多只读取 100 条数据
+
+        query.find().then((orders) => {
+            console.log('成功获取到云端订单数据，共：', orders.length + ' 条');
+            
+            // ***** 替换点 C *****
+            // 找到您在 H5 页面上用于显示列表的容器元素
+            const listContainer = document.getElementById('dingdan-xianshi-quyu');
+            listContainer.innerHTML = ''; // 清空旧数据
+
+            // ***** 替换点 D *****
+            // 遍历并显示数据
+            orders.forEach(order => {
+                const content = order.get('content');
+                const timestamp = order.get('timestamp').toLocaleString();
+                
+                // ***** 替换点 E *****
+                // 简单地在容器中添加数据项
+                listContainer.innerHTML += `<li> 订单内容：${content} <br> 保存时间：${timestamp} </li>`; 
+            });
+
+        }).catch((error) => {
+            console.error('数据读取失败:', error);
+        });
+    }
+
+    // 确保页面加载完成后执行一次读取操作，来同步云端数据
+    window.onload = fetchAllOrders; 
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zianna点餐助手 </title>
@@ -531,6 +598,11 @@
     </style>
 </head>
 <body>
+<input type="text" id="dingdan-shuru-kuang" placeholder="在这里输入您的订单内容">
+
+<ul id="dingdan-xianshi-quyu">
+</ul>
+
     <div class="container">
         <div class="header">
             <h1>🍽️ 小百合每日“食”光</h1>
@@ -1299,8 +1371,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
